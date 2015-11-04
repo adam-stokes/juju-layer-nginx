@@ -70,7 +70,7 @@ def install():
 def config_changed():
     config = hookenv.config()
 
-    if not is_state('nginx.available'):
+    if not is_state('nginx.available') or not config.changed('port'):
         return
 
     hookenv.log('Updating NGINX vhosts', 'info')
