@@ -21,9 +21,10 @@ application_port = 3001
 
 ## events
 
-**nginx.available** - emitted once nginx is installed
-**nginx.start** - emitted when starting nginx
-**nginx.started** - emitted when nginx is up and running
+**nginx.available** - emitted once nginx is installed and ready
+**nginx.start** - emit to start nginx
+**nginx.stop** - emit to stop nginx service
+**nginx.restart** - emit to restart nginx
 
 # license
 

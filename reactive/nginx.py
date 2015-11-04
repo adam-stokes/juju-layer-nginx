@@ -3,8 +3,7 @@ from charms.reactive import (
     when_not,
     set_state,
     remove_state,
-    is_state,
-    hook
+    is_state
 )
 
 from charmhelpers.core import hookenv, host
@@ -42,7 +41,6 @@ def configure_site(site, context):
     render(source='vhost.conf',
            target='/etc/nginx/sites-enabled/{}'.format(site),
            context={
-               'application_address': hookenv.unit_private_ip(),
                'application_port': context['proxy_port'],
                'location': context['location'],
                'hostname': context['servername'],
@@ -51,8 +49,8 @@ def configure_site(site, context):
 
 
 # REACTORS --------------------------------------------------------------------
-@hook('install')
-def install():
+@when('nginx.install')
+def install_nginx():
     """ Install nginx
     """
     hookenv.status_set('maintenance', 'Installing NGINX')
@@ -62,39 +60,28 @@ def install():
         return
 
     apt_install(['nginx-full'])
-
+    process_sites()
+    remove_state('nginx.install')
     set_state('nginx.available')
 
 
-@hook('config-changed')
-def config_changed():
-    config = hookenv.config()
-
-    if not is_state('nginx.available') or not config.changed('port'):
-        return
-
-    hookenv.log('Updating NGINX vhosts', 'info')
-    process_sites()
-
-    if is_state('nginx.started'):
-        hookenv.close_port(config.previous('port'))
-        host.service_reload('nginx')
-        hookenv.open_port(config['port'])
-    hookenv.status_set('maintenance', '')
-
-
 @when('nginx.start')
-@when_not('nginx.started')
+@when_not('nginx.available')
 def start_nginx():
     host.service_start('nginx')
-    set_state('nginx.started')
+    set_state('nginx.available')
 
 
-@when('nginx.available', 'nginx.started')
-@when_not('nginx.start')
+@when('nginx.available', 'nginx.stop')
 def stop_nginx():
     host.service_stop('nginx')
-    remove_state('nginx.started')
+    remove_state('nginx.available')
+
+
+@when('nginx.restart')
+def restart_nginx():
+    host.service_restart('nginx')
+    set_state('nginx.available')
 
 
 @when('website.available')
