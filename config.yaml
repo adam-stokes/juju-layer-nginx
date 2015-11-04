@@ -4,7 +4,3 @@ options:
     default: 80
     description: |
       NGINX listen port
-  nginx-servername:
-    type: string
-    default: "_"
-    description: NGINX vhost server name

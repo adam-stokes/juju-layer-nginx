@@ -1,6 +1,21 @@
 # layer-nginx
 > NGINX layer
 
+# usage
+
+Include `layer:nginx` in your `layer.yaml`
+
+## Adding Vhosts
+
+Create a file named `sites.toml` with the following
+
+```toml
+[ircbouncer]
+servername = "mybouncer.example.com"
+application_address = "host.unit_public_ip()"
+application_port = "config['application-port']"
+```
+
 # license
 
 The MIT License (MIT)
