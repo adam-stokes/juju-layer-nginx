@@ -10,5 +10,5 @@ description: |
   stability, rich feature set, simple configuration, and low resource
   consumption.
 provides:
-  reverseproxy:
+  website:
     interface: http
