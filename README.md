@@ -1,5 +1,5 @@
-# layer-nginx-proxy
-> NGINX proxy charm layer
+# layer-nginx
+> NGINX layer
 
 # license
 
