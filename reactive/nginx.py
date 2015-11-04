@@ -1,6 +1,5 @@
 from charms.reactive import (
     when,
-    when_not,
     set_state,
     remove_state,
     is_state,
@@ -42,25 +41,17 @@ def config_changed():
 
 
 # REACTORS --------------------------------------------------------------------
-@when('nginx.start')
-@when_not('nginx.started')
-def start_nginx():
-    host.service_start('nginx')
+@when('nginx.restart')
+def restart_nginx():
+    remove_state('nginx.started')
+    host.service_restart('nginx')
     set_state('nginx.started')
 
 
-@when('nginx.available', 'nginx.started')
-@when_not('nginx.start')
-def stop_nginx():
-    host.service_stop('nginx')
-    remove_state('nginx.started')
-
-
-@when('website.available')
-def configure_proxy(website):
+@when('reverseproxy.available')
+def configure_website(website):
     config = hookenv.config()
-    website.configure(config['port'])
-
+    website.configure(config['nginx-port'])
 
 if __name__ == "__main__":
     main()
