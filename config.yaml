@@ -1,0 +1,6 @@
+options:
+  nginx-port:
+    type: int
+    default: 80
+    description: |
+      NGINX listen port
