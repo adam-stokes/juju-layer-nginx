@@ -10,13 +10,13 @@ Include `layer:nginx` in your `layer.yaml`
 To proxy request through NGINX create a file named `sites.toml` with the following:
 
 ```toml
-[ircbouncer]
-servername = "mybouncer.example.com"
-application_port = 3000
+[default]
+server_name = "mybouncer.example.com"
+proxy_pass = "http://127.0.0.1:3000"
 
-[emailapi]
-servername = "email.example.com"
-application_port = 3001
+[www.joespoolhall.com]
+server_name = "email.example.com"
+proxy_pass = "http://127.0.0.1:3001"
 ```
 
 ## events

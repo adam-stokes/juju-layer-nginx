@@ -1,15 +1,16 @@
 from charms.reactive import (
     when,
-    when_not,
     set_state,
     remove_state,
     is_state
 )
 
-from charmhelpers.core import hookenv, host
+from charmhelpers.core import hookenv
 from charmhelpers.fetch import apt_install
 from charmhelpers.core.templating import render
 import toml
+
+config = hookenv.config()
 
 
 # HELPERS ---------------------------------------------------------------------
@@ -37,14 +38,13 @@ def configure_site(site, context):
     """ configures vhost
     """
     hookenv.status_set('maintenance', 'Configuring site {}'.format(site))
-    config = hookenv.config()
     render(source='vhost.conf',
            target='/etc/nginx/sites-enabled/{}'.format(site),
            context={
-               'application_port': context['proxy_port'],
+               'proxy_pass': context['proxy_pass'],
                'location': context['location'],
-               'hostname': context['servername'],
-               'port': config['nginx-port']
+               'server_name': context['server_name'],
+               'listen': config['port']
            })
 
 
@@ -65,26 +65,6 @@ def install_nginx():
     set_state('nginx.available')
 
 
-@when('nginx.start')
-@when_not('nginx.available')
-def start_nginx():
-    host.service_start('nginx')
-    set_state('nginx.available')
-
-
-@when('nginx.available', 'nginx.stop')
-def stop_nginx():
-    host.service_stop('nginx')
-    remove_state('nginx.available')
-
-
-@when('nginx.restart')
-def restart_nginx():
-    host.service_restart('nginx')
-    set_state('nginx.available')
-
-
 @when('website.available')
 def configure_website(website):
-    config = hookenv.config()
-    website.configure(config['nginx-port'])
+    website.configure(config['port'])

@@ -1,5 +1,5 @@
 options:
-  nginx-port:
+  port:
     type: int
     default: 80
     description: |
