@@ -5,16 +5,25 @@
 
 Include `layer:nginx` in your `layer.yaml`
 
-## Adding Vhosts
+## adding Vhosts
 
-Create a file named `sites.toml` with the following
+To proxy request through NGINX create a file named `sites.toml` with the following:
 
 ```toml
 [ircbouncer]
 servername = "mybouncer.example.com"
-application_address = "host.unit_public_ip()"
-application_port = "config['application-port']"
+application_port = 3000
+
+[emailapi]
+servername = "email.example.com"
+application_port = 3001
 ```
+
+## events
+
+**nginx.available** - emitted once nginx is installed
+**nginx.start** - emitted when starting nginx
+**nginx.started** - emitted when nginx is up and running
 
 # license
 

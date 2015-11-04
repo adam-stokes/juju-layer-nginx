@@ -1,9 +1,9 @@
 from charms.reactive import (
     when,
+    when_not,
     set_state,
     remove_state,
     is_state,
-    main,
     hook
 )
 
@@ -17,16 +17,21 @@ import toml
 def all_sites():
     """ Returns a list of known vhosts
     """
-    with open('sites.toml') as fp:
-        sites = toml.loads(fp.read())
-    return sites
+    try:
+        with open('sites.toml') as fp:
+            sites = toml.loads(fp.read())
+        return sites
+    except IOError:
+        hookenv.log('No sites.toml found, not configuring vhosts', 'warning')
+        return False
 
 
 def process_sites():
     sites = all_sites()
-    for site in sites.keys():
-        hookenv.log('Processing site: {}'.format(site), 'debug')
-        configure_site(site, sites[site])
+    if sites:
+        for site in sites.keys():
+            hookenv.log('Processing site: {}'.format(site), 'debug')
+            configure_site(site, sites[site])
 
 
 def configure_site(site, context):
@@ -77,24 +82,22 @@ def config_changed():
     hookenv.status_set('maintenance', '')
 
 
-@hook('upgrade-charm')
-def upgrade():
-    """ Just update any vhosts
-    """
-    process_sites()
-    set_state('nginx.restart')
-
-
 # REACTORS --------------------------------------------------------------------
-@when('nginx.restart')
-def restart_nginx():
-    host.service_restart('nginx')
+@when('nginx.start')
+@when_not('nginx.started')
+def start_nginx():
+    host.service_start('nginx')
+    set_state('nginx.started')
+
+
+@when('nginx.available', 'nginx.started')
+@when_not('nginx.start')
+def stop_nginx():
+    host.service_stop('nginx')
+    remove_state('nginx.started')
 
 
 @when('website.available')
 def configure_website(website):
     config = hookenv.config()
     website.configure(config['nginx-port'])
-
-if __name__ == "__main__":
-    main()
