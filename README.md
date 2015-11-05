@@ -12,19 +12,11 @@ To proxy request through NGINX create a file named `sites.toml` with the followi
 ```toml
 [default]
 server_name = "mybouncer.example.com"
-proxy_pass = "http://127.0.0.1:3000"
-
-[www.joespoolhall.com]
-server_name = "email.example.com"
-proxy_pass = "http://127.0.0.1:3001"
 ```
 
 ## events
 
 **nginx.available** - emitted once nginx is installed and ready
-**nginx.start** - emit to start nginx
-**nginx.stop** - emit to stop nginx service
-**nginx.restart** - emit to restart nginx
 
 # license
 

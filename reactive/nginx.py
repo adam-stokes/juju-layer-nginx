@@ -30,7 +30,10 @@ def process_sites():
     sites = all_sites()
     if sites:
         for site in sites.keys():
-            hookenv.log('Processing site: {}'.format(site), 'debug')
+            hookenv.log(
+                'Processing site: {} @ {}'.format(site,
+                                                  sites[site]['server_name']),
+                'debug')
             configure_site(site, sites[site])
 
 
@@ -41,10 +44,9 @@ def configure_site(site, context):
     render(source='vhost.conf',
            target='/etc/nginx/sites-enabled/{}'.format(site),
            context={
-               'proxy_pass': context['proxy_pass'],
-               'location': context['location'],
                'server_name': context['server_name'],
-               'listen': config['port']
+               'host': config['host'],
+               'port': config['port']
            })
 
 
