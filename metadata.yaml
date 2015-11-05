@@ -1,9 +1,3 @@
-name: nginx
-summary: |
-  NGINX is a free, open-source, high-performance HTTP server and reverse proxy,
-  as well as an IMAP/POP3 proxy server.
-maintainers: ['Adam Stokes <adam.stokes@ubuntu.com>']
-categories: ['webserver', 'reverseproxy']
 provides:
   website:
     interface: http
