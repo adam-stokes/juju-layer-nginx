@@ -66,7 +66,14 @@ def install_nginx():
     remove_state('nginx.install')
     set_state('nginx.available')
 
+# Example website.available reaction ------------------------------------------
+""""
+This example reaction for an application layer which consumes this nginx layer.
+If left here then this reaction may overwrite your top-level reaction depending
+on service names, ie., both nginx and ghost have the same reaction method,
+however, nginx will execute since it's a higher precedence.
 
-@when('website.available')
+@when('nginx.available', 'website.available')
 def configure_website(website):
-    website.configure(config['port'])
+    website.configure(port=config['port'])
+"""
