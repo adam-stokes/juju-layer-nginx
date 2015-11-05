@@ -1,8 +1,8 @@
 from charms.reactive import (
-    when,
     set_state,
     remove_state,
-    is_state
+    is_state,
+    hook
 )
 
 from charmhelpers.core import hookenv
@@ -50,8 +50,8 @@ def configure_site(site, context):
            })
 
 
-# REACTORS --------------------------------------------------------------------
-@when('nginx.install')
+# HOOKS -----------------------------------------------------------------------
+@hook('install')
 def install_nginx():
     """ Install nginx
     """
@@ -65,6 +65,7 @@ def install_nginx():
     process_sites()
     remove_state('nginx.install')
     set_state('nginx.available')
+    hookenv.status_set('active', 'NGINX Installed.')
 
 # Example website.available reaction ------------------------------------------
 """"

@@ -17,6 +17,20 @@ server_name = "mybouncer.example.com"
 ## events
 
 **nginx.available** - emitted once nginx is installed and ready
+**website.available** - emitted from the http interface bound to this layer.
+
+## interface
+
+This layer exposes the [http interface](http://interfaces.juju.solutions/interface/http/)
+which can be used in the application layer that consumes this layer.
+
+An example:
+
+```python
+@when('nginx.available', 'website.available')
+def configure_website(website):
+    website.configure(port=config['port'])
+```
 
 # license
 
