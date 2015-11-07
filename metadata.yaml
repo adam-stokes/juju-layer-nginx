@@ -1,3 +1,4 @@
+name: nginx
 provides:
   website:
     interface: http
