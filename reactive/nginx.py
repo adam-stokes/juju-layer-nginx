@@ -1,53 +1,17 @@
 from charms.reactive import (
     set_state,
-    remove_state,
     is_state,
     hook
 )
 
 from charmhelpers.core import hookenv
-from charmhelpers.fetch import apt_install
-from charmhelpers.core.templating import render
-import toml
+import sys
+from shell import shell
+
+# ./nginxlib
+from nginxlib import process_sites
 
 config = hookenv.config()
-
-
-# HELPERS ---------------------------------------------------------------------
-def all_sites():
-    """ Returns a list of known vhosts
-    """
-    try:
-        with open('sites.toml') as fp:
-            sites = toml.loads(fp.read())
-        return sites
-    except IOError:
-        hookenv.log('No sites.toml found, not configuring vhosts', 'warning')
-        return False
-
-
-def process_sites():
-    sites = all_sites()
-    if sites:
-        for site in sites.keys():
-            hookenv.log(
-                'Processing site: {} @ {}'.format(site,
-                                                  sites[site]['server_name']),
-                'debug')
-            configure_site(site, sites[site])
-
-
-def configure_site(site, context):
-    """ configures vhost
-    """
-    hookenv.status_set('maintenance', 'Configuring site {}'.format(site))
-    render(source='vhost.conf',
-           target='/etc/nginx/sites-enabled/{}'.format(site),
-           context={
-               'server_name': context['server_name'],
-               'host': config['host'],
-               'port': config['port']
-           })
 
 
 # HOOKS -----------------------------------------------------------------------
@@ -61,9 +25,12 @@ def install_nginx():
     if is_state('nginx.available'):
         return
 
-    apt_install(['nginx-full'])
+    sh = shell('apt-get install -qy nginx-full')
+    if sh.code > 0:
+        hookenv.status_set('blocked',
+                           'Unable to install nginx: {}'.format(sh.errors()))
+        sys.exit(0)
     process_sites()
-    remove_state('nginx.install')
     set_state('nginx.available')
     hookenv.status_set('active', 'NGINX Installed.')
 

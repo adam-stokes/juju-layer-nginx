@@ -4,3 +4,7 @@ options:
     default: 80
     description: |
       NGINX listen port
+  host:
+    type: string
+    default: "127.0.0.1"
+    description: listen address

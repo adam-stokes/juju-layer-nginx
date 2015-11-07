@@ -1,0 +1,13 @@
+[correct]
+server_name = "www.testsite.com"
+interface = "passthrough"
+app_path = "/srv/www"
+
+[incorrect]
+server_name = "www.testsite.com"
+app_path = "/srv/www"
+
+[incorrect-interface]
+server_name = "www.hai2u.com"
+app_path = "/srv/www"
+interface = "p4ssthr0ugh"
