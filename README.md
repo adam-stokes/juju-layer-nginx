@@ -11,10 +11,10 @@ To proxy request through NGINX create a file named `sites.toml` with the followi
 
 ```toml
 [default]
-server_name = "mybouncer.example.com"
-packages = ["php5-fpm", "php5-mysql"]
-interface = "phpfpm"
-app_path = "/srv/myapp
+"server_name" = "mybouncer.example.com"
+"packages" = ["php5-fpm", "php5-mysql"]
+"interface" = "phpfpm"
+"app-path" = "/srv/myapp"
 ```
 
 ### Supported interfaces
