@@ -24,8 +24,8 @@ To proxy request through NGINX create a file named `sites.toml` with the followi
 
 ## events
 
-**nginx.available** - emitted once nginx is installed and ready
-**website.available** - emitted from the http interface bound to this layer.
+* **nginx.available** - emitted once nginx is installed and ready
+* **website.available** - emitted from the http interface bound to this layer.
 
 ## interface
 
