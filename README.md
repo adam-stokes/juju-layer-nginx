@@ -7,25 +7,27 @@ Include `layer:nginx` in your `layer.yaml`
 
 ## adding Vhosts
 
-To proxy request through NGINX create a file named `sites.toml` with the following:
+To proxy request through NGINX create a file named `site.toml` with the following:
 
 ```toml
-[default]
 "server_name" = "mybouncer.example.com"
 "packages" = ["php5-fpm", "php5-mysql"]
-"interface" = "phpfpm"
 "app-path" = "/srv/myapp"
 ```
-
-### Supported interfaces
-
-* `phpfpm` - Sites requiring php fastcgi support (ie Wordpress)
-* `reverseproxy` - Sites requiring a simple reverseproxy
 
 ## events
 
 * **nginx.available** - emitted once nginx is installed and ready
 * **website.available** - emitted from the http interface bound to this layer.
+
+Configure your web application once `nginx.available` is emitted:
+
+```python
+from nginxlib import configure_site
+@when('nginx.available')
+def configure_webapp():
+    configure_site('mywebsite', {'dict':'keys'}, 'vhost.conf')
+```
 
 ## interface
 

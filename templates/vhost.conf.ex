@@ -1,4 +1,3 @@
-{% if interface == "reverseproxy" %}
 server {
     listen 80;
 
@@ -17,8 +16,3 @@ server {
 
     }
 }
-{% endif %}
-
-{% if interface == "phpfpm" %}
-   {% include "vhost-fcgi-php.conf" ignore missing %}
-{% endif %}

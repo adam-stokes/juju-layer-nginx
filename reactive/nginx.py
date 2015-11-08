@@ -8,9 +8,6 @@ from charmhelpers.core import hookenv
 import sys
 from shell import shell
 
-# ./nginxlib
-from nginxlib import process_sites
-
 config = hookenv.config()
 
 
@@ -30,7 +27,6 @@ def install_nginx():
         hookenv.status_set('blocked',
                            'Unable to install nginx: {}'.format(sh.errors()))
         sys.exit(0)
-    process_sites()
     set_state('nginx.available')
     hookenv.status_set('active', 'NGINX Installed.')
 
