@@ -12,10 +12,10 @@ REQUIRED_KEYS = ['server_name',
 OPTIONAL_KEYS = ['packages']
 
 # Supported interfaces,
-# passthrough - for nodejs, ruby like apps that just need a simple proxy
-# fastcgi - sites like wordpress that need fastcgi support
-INTERFACES = ['passthrough',
-              'fastcgi']
+# reverseproxy - for nodejs, ruby like apps that just need a simple proxy
+# phpfpm - sites like wordpress that need php fastcgi support
+INTERFACES = ['reverseproxy',
+              'phpfpm']
 
 
 def _validate_config(keys):
