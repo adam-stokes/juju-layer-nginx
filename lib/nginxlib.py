@@ -16,6 +16,13 @@ def load_site():
         sys.exit(0)
 
 
+def get_app_path():
+    site = load_site()
+    if 'app_path' in site:
+        return site['app_path']
+    return '/srv/app'
+
+
 def configure_site(site, template, **kwargs):
     """ configures vhost
 
@@ -31,6 +38,7 @@ def configure_site(site, template, **kwargs):
     context = load_site()
     context['host'] = config['host']
     context['port'] = config['port']
+    context.update(**kwargs)
     render(source=template,
            target='/etc/nginx/sites-enabled/{}'.format(site),
            context=context)
