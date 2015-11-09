@@ -12,7 +12,7 @@ To proxy request through NGINX create a file named `site.toml` with the followin
 ```toml
 "server_name" = "mybouncer.example.com"
 "packages" = ["php5-fpm", "php5-mysql"]
-"app-path" = "/srv/myapp"
+"app_path" = "/srv/myapp"
 ```
 
 ## events
