@@ -26,7 +26,7 @@ Configure your web application once `nginx.available` is emitted:
 from nginxlib import configure_site
 @when('nginx.available')
 def configure_webapp():
-    configure_site('mywebsite', {'dict':'keys'}, 'vhost.conf')
+    configure_site('mywebsite', 'vhost.conf', app_path='/srv/app')
 ```
 
 ## interface
