@@ -5,8 +5,7 @@ from charms.reactive import (
 )
 
 from charmhelpers.core import hookenv
-import sys
-from shell import shell
+from charmhelpers.fetch import apt_install
 import os
 
 config = hookenv.config()
@@ -23,11 +22,7 @@ def install_nginx():
     if is_state('nginx.available'):
         return
 
-    sh = shell('apt-get install -qy nginx-full')
-    if sh.code > 0:
-        hookenv.status_set('blocked',
-                           'Unable to install nginx: {}'.format(sh.errors()))
-        sys.exit(0)
+    apt_install(['nginx-full'])
     if os.path.exists('/etc/nginx/site-enabled/default'):
         os.remove('/etc/nginx/sites-enabled/default')
 
