@@ -1,8 +1,10 @@
 from charmhelpers.core.templating import render
 from charmhelpers.core import hookenv
+from charmhelpers.core import host
+from charmhelpers.fetch import apt_install
+
 import toml
 import sys
-from shell import shell
 
 
 def load_site():
@@ -48,6 +50,8 @@ def configure_site(site, template, **kwargs):
     if 'packages' in context:
         install_extra_packages(context['packages'])
 
+    host.service_reload('nginx')
+
 
 def install_extra_packages(pkgs):
     """ Installs additional packages defined
@@ -57,9 +61,4 @@ def install_extra_packages(pkgs):
     if isinstance(pkgs, str):
         pkgs = [pkgs]
 
-    sh = shell('apt-get install -qy {}'.format(" ".join(pkgs)))
-    if sh.code > 0:
-        hookenv.status_set(
-            'blocked',
-            'Unable to install packages: {}'.format(sh.errors()))
-        sys.exit(0)
+    apt_install(pkgs)
