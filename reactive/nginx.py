@@ -30,7 +30,7 @@ def install_nginx():
     hookenv.status_set('active', 'NGINX Installed.')
 
 # Example website.available reaction ------------------------------------------
-""""
+"""
 This example reaction for an application layer which consumes this nginx layer.
 If left here then this reaction may overwrite your top-level reaction depending
 on service names, ie., both nginx and ghost have the same reaction method,
