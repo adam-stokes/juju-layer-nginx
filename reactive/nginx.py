@@ -7,6 +7,7 @@ from charms.reactive import (
 from charmhelpers.core import hookenv
 import sys
 from shell import shell
+import os
 
 config = hookenv.config()
 
@@ -27,6 +28,9 @@ def install_nginx():
         hookenv.status_set('blocked',
                            'Unable to install nginx: {}'.format(sh.errors()))
         sys.exit(0)
+    if os.path.exists('/etc/nginx/site-enabled/default'):
+        os.remove('/etc/nginx/sites-enabled/default')
+
     set_state('nginx.available')
     hookenv.status_set('active', 'NGINX Installed.')
 
