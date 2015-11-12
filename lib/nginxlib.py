@@ -1,5 +1,6 @@
 from charmhelpers.core.templating import render
 from charmhelpers.core import hookenv
+from charmhelpers.core import host
 from charmhelpers.fetch import apt_install
 
 import toml
@@ -48,6 +49,8 @@ def configure_site(site, template, **kwargs):
 
     if 'packages' in context:
         install_extra_packages(context['packages'])
+
+    host.service_reload('nginx')
 
 
 def install_extra_packages(pkgs):
