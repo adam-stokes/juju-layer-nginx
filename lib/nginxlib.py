@@ -31,8 +31,8 @@ def configure_site(site, template, **kwargs):
     Arguments:
     site: Site name
     template: template to process in templates/<template.conf>
-    context: dict() sites.toml
-    **kwargs: additional dict items to append to template variables
+    **kwargs: additional dict items to append to template variables exposed
+              through the site.toml
     """
     hookenv.status_set('maintenance', 'Configuring site {}'.format(site))
 
