@@ -15,6 +15,9 @@ To proxy request through NGINX create a file named `site.toml` with the followin
 "app_path" = "/srv/myapp"
 ```
 
+Those variables will be available when configuring your `templates/vhost.conf`. The
+configuration for a vhost is pretty open depending on your needs.
+
 ## events
 
 * **nginx.available** - emitted once nginx is installed and ready
