@@ -23,7 +23,7 @@ def install_nginx():
         return
 
     apt_install(['nginx-full'])
-    if os.path.exists('/etc/nginx/site-enabled/default'):
+    if os.path.exists('/etc/nginx/sites-enabled/default'):
         os.remove('/etc/nginx/sites-enabled/default')
 
     set_state('nginx.available')
