@@ -8,14 +8,13 @@ import sys
 
 
 def load_site():
-    try:
-        with open('site.toml') as fp:
-            conf = toml.loads(fp.read())
-        return conf
-    except IOError:
-        hookenv.status_set('blocked',
-                           'No site.toml found, not configuring vhost')
-        sys.exit(0)
+    if not os.path.isfile('site.toml'):
+        return {}
+
+    with open('site.toml') as fp:
+        conf = toml.loads(fp.read())
+
+    return conf
 
 
 def get_app_path():
