@@ -5,6 +5,7 @@ from charmhelpers.fetch import apt_install
 
 import toml
 import sys
+import os
 
 
 def load_site():
