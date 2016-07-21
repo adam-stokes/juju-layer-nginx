@@ -26,7 +26,7 @@ configuration for a vhost is pretty open depending on your needs.
 Configure your web application once `nginx.available` is emitted:
 
 ```python
-from nginxlib import configure_site
+from charms.layer.nginx import configure_site
 @when('nginx.available')
 def configure_webapp():
     configure_site('mywebsite', 'vhost.conf', app_path='/srv/app')
