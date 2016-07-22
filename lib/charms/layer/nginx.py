@@ -3,7 +3,6 @@ from charmhelpers.core import hookenv
 from charmhelpers.core import host
 
 import toml
-import sys
 import os
 
 
