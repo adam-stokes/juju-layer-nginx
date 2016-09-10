@@ -7,7 +7,8 @@ Include `layer:nginx` in your `layer.yaml`
 
 ## adding Vhosts
 
-To proxy request through NGINX create a file named `site.toml` with the following:
+To proxy requests through NGINX to another application create a  
+`site.toml` file with the following:
 
 ```toml
 "server_name" = "mybouncer.example.com"
@@ -15,15 +16,15 @@ To proxy request through NGINX create a file named `site.toml` with the followin
 "app_path" = "/srv/myapp"
 ```
 
-Those variables will be available when configuring your `templates/vhost.conf`. The
-configuration for a vhost is pretty open depending on your needs.
+The variables in `site.toml` will be available when configuring the NGINX
+`templates/vhost.conf`.
 
-## events
+## states
 
-* **nginx.available** - emitted once nginx is installed and ready
-* **website.available** - emitted from the http interface bound to this layer.
+* **nginx.available** - Set once nginx is installed and ready
+* **website.available** - Set from the http interface bound to this layer.
 
-Configure your web application once `nginx.available` is emitted:
+Configure your web application once `nginx.available` is set:
 
 ```python
 from charms.layer.nginx import configure_site
