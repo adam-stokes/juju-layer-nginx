@@ -45,7 +45,4 @@ def configure_site(site, template, **kwargs):
     hookenv.log('Wrote vhost config {} to {}'.format(context, template),
                 'info')
 
-    if 'packages' in context:
-        install_extra_packages(context['packages'])
-
     host.service_reload('nginx')

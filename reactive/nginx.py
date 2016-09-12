@@ -1,10 +1,11 @@
 from charms.reactive import (
     set_state,
     when_not,
+    when
 )
 
 from charmhelpers.core import hookenv
-from charmhelpers.fetch import apt_install
+from charms import apt
 import os
 
 config = hookenv.config()
@@ -15,10 +16,15 @@ config = hookenv.config()
 def install_nginx():
     """ Install nginx
     """
-    apt_install(['nginx-full'])
+    apt.queue_install(['nginx-full'])
     if os.path.exists('/etc/nginx/sites-enabled/default'):
         os.remove('/etc/nginx/sites-enabled/default')
 
+
+@when('apt.installed.nginx')
+@when_not('nginx.available')
+def nginx_ready():
+    hookenv.status_set('active', 'NGINX is ready')
     set_state('nginx.available')
 
 # Example website.available reaction ------------------------------------------
