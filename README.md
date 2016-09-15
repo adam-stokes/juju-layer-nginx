@@ -7,17 +7,36 @@ Include `layer:nginx` in your `layer.yaml`
 
 ## adding Vhosts
 
-To proxy requests through NGINX to another application create a  
+To proxy requests through NGINX to another application create a
 `site.toml` file with the following:
 
 ```toml
 "server_name" = "mybouncer.example.com"
-"packages" = ["php5-fpm", "php5-mysql"]
 "app_path" = "/srv/myapp"
 ```
 
 The variables in `site.toml` will be available when configuring the NGINX
 `templates/vhost.conf`.
+
+If additional packages are required (ie php-mysql, php-mcrypt) in your `layer.yaml` add:
+
+```yaml
+includes:
+    - layer:nginx
+options:
+    apt:
+        packages:
+            - php-mysql
+            - php-mcrypt
+```
+
+Once these packages are installed you can check their availability with:
+
+```python
+@when('apt.installed.php-mysql')
+def do_something_with_mysql():
+    pass
+```
 
 ## states
 
@@ -50,7 +69,7 @@ def configure_website(website):
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Adam Stokes <adam.stokes@ubuntu.com>
+Copyright (c) 2015-2016 Adam Stokes <adam.stokes@ubuntu.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
