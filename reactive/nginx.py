@@ -11,7 +11,7 @@ config = hookenv.config()
 
 
 # handlers --------------------------------------------------------------------
-@when('apt.installed.nginx')
+@when('apt.installed.nginx-full')
 @when_not('nginx.available')
 def nginx_ready():
     if os.path.exists('/etc/nginx/sites-enabled/default'):
