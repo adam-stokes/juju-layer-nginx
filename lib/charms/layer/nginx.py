@@ -39,8 +39,11 @@ def configure_site(site, template, **kwargs):
     context['host'] = config['host']
     context['port'] = config['port']
     context.update(**kwargs)
+    conf_path = '/etc/nginx/sites-enabled/{}'.format(site)
+    if os.path.exists(conf_path):
+        os.remove(conf_path)
     render(source=template,
-           target='/etc/nginx/sites-enabled/{}'.format(site),
+           target=conf_path,
            context=context)
     hookenv.log('Wrote vhost config {} to {}'.format(context, template),
                 'info')
