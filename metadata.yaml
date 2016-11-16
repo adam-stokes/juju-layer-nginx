@@ -1,6 +1,4 @@
 name: nginx
-maintainers: ['Adam Stokes <adam.stokes@ubuntu.com>']
-tags: ['HTTP server']
 summary: |
   NGINX is an HTTP server, reverse proxy and IMAP/POP3 proxy server.
 description: |
