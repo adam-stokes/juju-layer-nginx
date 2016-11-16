@@ -20,6 +20,7 @@ def nginx_ready():
     hookenv.status_set('active', 'NGINX is ready')
     set_state('nginx.available')
 
+
 # Example website.available reaction ------------------------------------------
 """
 This example reaction for an application layer which consumes this nginx layer.
