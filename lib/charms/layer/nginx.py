@@ -49,3 +49,4 @@ def configure_site(site, template, **kwargs):
                 'info')
 
     host.service_reload('nginx')
+    hookenv.status_set('active', '')
