@@ -39,14 +39,21 @@ def configure_site(site, template, **kwargs):
     context['host'] = config['host']
     context['port'] = config['port']
     context.update(**kwargs)
-    conf_path = '/etc/nginx/sites-enabled/{}'.format(site)
+    conf_path = '/etc/nginx/sites-available/{}'.format(site)
     if os.path.exists(conf_path):
         os.remove(conf_path)
     render(source=template,
            target=conf_path,
            context=context)
+
+    symlink_path = '/etc/nginx/sites-enabled/{}'.format(site)
+    if os.path.exists(symlink_path):
+        os.unlink(symlink_path)
+    os.symlink(conf_path, symlink_path)
     hookenv.log('Wrote vhost config {} to {}'.format(context, template),
                 'info')
 
+    if os.path.exists('/etc/nginx/sites-enabled/default'):
+        os.remove('/etc/nginx/sites-enabled/default')
     host.service_reload('nginx')
     hookenv.status_set('active', '')
