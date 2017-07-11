@@ -14,9 +14,6 @@ config = hookenv.config()
 @when('apt.installed.nginx-full')
 @when_not('nginx.available')
 def nginx_ready():
-    if os.path.exists('/etc/nginx/sites-enabled/default'):
-        os.remove('/etc/nginx/sites-enabled/default')
-
     hookenv.status_set('active', 'NGINX is ready')
     set_state('nginx.available')
 
