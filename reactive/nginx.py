@@ -5,7 +5,6 @@ from charms.reactive import (
 )
 
 from charmhelpers.core import hookenv
-import os
 
 config = hookenv.config()
 
