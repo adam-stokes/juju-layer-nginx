@@ -9,6 +9,9 @@ maintainers:
 tags:
   - application
   - nginx
+series:
+  - xenial
+  - bionic
 provides:
   website:
     interface: http
