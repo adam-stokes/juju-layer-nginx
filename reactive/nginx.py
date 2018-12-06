@@ -4,15 +4,18 @@ from charms.reactive import (
     when
 )
 
+from charms.layer import nginx
+
 from charmhelpers.core import hookenv
 
 config = hookenv.config()
 
 
-# handlers --------------------------------------------------------------------
+# Handlers --------------------------------------------------------------------
 @when('apt.installed.nginx-full')
 @when_not('nginx.available')
 def nginx_ready():
+    nginx.remove_default_site()
     hookenv.status_set('active', 'NGINX is ready')
     set_state('nginx.available')
 
