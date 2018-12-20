@@ -33,7 +33,7 @@ def remove_default_site():
     site_path = '/etc/nginx/sites-enabled/default'
     if os.path.isfile(site_path):
         os.remove(site_path)
-        host.service_reload('nginx')
+        host.service_reload('nginx', restart_on_failure=True)
         return True
 
     return False
@@ -70,5 +70,5 @@ def configure_site(site, template, **kwargs):
                 'info')
 
     if not remove_default_site():
-        host.service_reload('nginx')
+        host.service_reload('nginx', restart_on_failure=True)
     hookenv.status_set('active', '')
