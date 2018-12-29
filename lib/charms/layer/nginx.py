@@ -23,6 +23,22 @@ def get_app_path():
     return '/srv/app'
 
 
+def remove_default_site():
+    """
+    Remove the default enabled 
+    site.
+
+    :return: Boolean
+    """
+    site_path = '/etc/nginx/sites-enabled/default'
+    if os.path.isfile(site_path):
+        os.remove(site_path)
+        host.service_reload('nginx', restart_on_failure=True)
+        return True
+
+    return False
+
+
 def configure_site(site, template, **kwargs):
     """ configures vhost
 
@@ -53,7 +69,6 @@ def configure_site(site, template, **kwargs):
     hookenv.log('Wrote vhost config {} to {}'.format(context, template),
                 'info')
 
-    if os.path.exists('/etc/nginx/sites-enabled/default'):
-        os.remove('/etc/nginx/sites-enabled/default')
-    host.service_reload('nginx')
+    if not remove_default_site():
+        host.service_reload('nginx', restart_on_failure=True)
     hookenv.status_set('active', '')

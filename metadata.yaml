@@ -3,6 +3,15 @@ summary: |
   NGINX is an HTTP server, reverse proxy and IMAP/POP3 proxy server.
 description: |
   NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server. NGINX is known for its high performance, stability, rich feature set, simple configuration, and low resource consumption.
+maintainers:
+  - Adam Stokes <adam.stokes@canonical.com>
+  - Joe Borg <joseph.borg@canonical.com>
+tags:
+  - application
+  - nginx
+series:
+  - xenial
+  - bionic
 provides:
   website:
     interface: http
